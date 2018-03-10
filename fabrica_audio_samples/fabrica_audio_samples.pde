@@ -104,7 +104,7 @@ void draw()
     if (beats < 33 || beats >= 284) {
       water();
     }
-    if (beats == 33 || beats == 72 || beats == 191 || beats == 236) {
+    if (beats == 33 || beats == 72 || beats == 191 || beats == 236 || beats == 280) {
       clear();
     }
     if (beats >= 33 && beats < 72) {
@@ -117,7 +117,7 @@ void draw()
       if (beats >=203 &&  beats < 235) {
         chaotic();
       } else {
-        if (beats % 4 == 0 && (beats < 191 || beats > 236)) {
+        if (beats % 4 == 0 && (beats < 191 || (beats > 236 && beats < 280))) {
           rectangle();
         }
       }
