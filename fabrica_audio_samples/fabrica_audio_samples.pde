@@ -6,7 +6,7 @@ import controlP5.*;
 import javax.sound.sampled.*;
 import ddf.minim.ugens.*;
 
-Minim              minim;
+Minim minim;
 MultiChannelBuffer sampleBuffer;
 AudioPlayer player;
 
@@ -14,6 +14,7 @@ OscP5 oscP5;
 NetAddress myRemoteLocation;
 
 int beats = 0;
+int new_beats = 0;
 int start_time = 0;
 
 String mood = "";
@@ -38,7 +39,7 @@ void water() {
   OscMessage myMessage = new OscMessage("/fabbrica/ledwall/single");
   myMessage.add(4);
   myMessage.add(random(10));
-  myMessage.add(random(180));
+  myMessage.add(random(150));
   myMessage.add(38);
   myMessage.add(250);
   oscP5.send(myMessage, myRemoteLocation);
@@ -58,6 +59,7 @@ void chika() {
 }
 
 void rectangle() {
+  clear();
   OscMessage myMessage = new OscMessage("/fabbrica/ledwall/rect");
   myMessage.add(0);
   myMessage.add(0);
@@ -81,26 +83,43 @@ void circle() {
   oscP5.send(myMessage, myRemoteLocation);
 }
 
+void chaotic() {
+  clear();
+  int random_x = int(random(5));
+  int random_y = int(random(10));
+
+  OscMessage myMessage = new OscMessage("/fabbrica/ledwall/line");
+  myMessage.add(0);
+  myMessage.add(0);
+  myMessage.add(random_x);
+  myMessage.add(random_y);
+  oscP5.send(myMessage, myRemoteLocation);
+}
+
 void draw()
 {
 
-  int new_beats = frameCount - start_time;
+  new_beats = frameCount - start_time;
   if (beats != new_beats) {
     if (beats < 33 || beats >= 284) {
       water();
     }
-    if (beats == 33 || beats == 72) {
+    if (beats == 33 || beats == 72 || beats == 191 || beats == 236) {
       clear();
     }
     if (beats >= 33 && beats < 72) {
       chika();
     }
     if (beats >= 76) {
-      if (beats % 4 == 0) {
-        rectangle();
-      }
-      if (beats == 91) {
+      if (beats == 91 || beats == 107 || beats == 123 || beats == 139 || beats == 155 || beats == 171 || beats == 235 || beats == 251) {
         circle();
+      }
+      if (beats >=203 &&  beats < 235) {
+        chaotic();
+      } else {
+        if (beats % 4 == 0 && (beats < 191 || beats > 236)) {
+          rectangle();
+        }
       }
     }
     println(beats);
